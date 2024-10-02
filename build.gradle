@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id "io.freefair.lombok" version "8.10"
+    id "net.serenity-bdd.serenity-gradle-plugin" version "4.2.1"
+    id "com.github.sherter.google-java-format" version "0.9"
+}
+
+group = 'com.auto'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext{
+    serenity = '4.2.1'
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-simple:2.0.16'
+    implementation "net.serenity-bdd:serenity-junit:$rootProject.ext.serenity"
+    implementation "net.serenity-bdd:serenity-rest-assured:$rootProject.ext.serenity"
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
+    implementation 'net.datafaker:datafaker:2.4.0'
+}
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
+
+googleJavaFormat {
+    toolVersion = "1.7"
+}
+
+verifyGoogleJavaFormat.ignoreFailures = true
+
+compileJava.dependsOn "googleJavaFormat"
